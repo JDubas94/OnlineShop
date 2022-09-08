@@ -91,7 +91,29 @@ namespace OnlineShop.Areas.Admin.Controllers
              {
                 return NotFound();
              }
+
              return View(category);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+
+        public IActionResult DeleteData(int? id)
+        {
+            var category = _unitOfWork.Category.GetT(x => x.Id == id);
+
+            if(category == null)
+            {
+                return NotFound();
+            }
+
+            _unitOfWork.Category.Delete(category);
+
+            _unitOfWork.Save();
+
+            TempData["success"] = "Category Deleted Done!";
+
+            return RedirectToAction("Index");
         }
     }
 
