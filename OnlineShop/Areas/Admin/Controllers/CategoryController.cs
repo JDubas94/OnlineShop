@@ -29,7 +29,7 @@ namespace OnlineShop.Areas.Admin.Controllers
         {
             CategoryVM vm = new CategoryVM();
 
-            if(id == null || id == 0)
+            if (id == null || id == 0)
             {
                 return View(vm);
             }
@@ -37,7 +37,7 @@ namespace OnlineShop.Areas.Admin.Controllers
             {
                 vm.Category = _unitOfWork.Category.GetT(x => x.Id == id);
 
-                if(vm.Category == null)
+                if (vm.Category == null)
                 {
                     return NotFound();
                 }
@@ -47,5 +47,53 @@ namespace OnlineShop.Areas.Admin.Controllers
                 }
             }
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+
+        public IActionResult CreateUpdate(CategoryVM vm)
+        {
+            if(ModelState.IsValid)
+            {
+                if(vm.Category.Id==0)
+                {
+                    _unitOfWork.Category.Add(vm.Category);
+
+                    TempData["success"] = "Category create done!";
+                }
+                else
+                {
+                    _unitOfWork.Category.Update(vm.Category);
+
+                    TempData["success"] = "Category update done!";
+                }
+
+                _unitOfWork.Save();
+
+                return RedirectToAction("Index");
+            }
+
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+
+        public IActionResult Delete(int? id)
+        {
+             if(id== null || id == 0)
+             {
+                return NotFound();
+             }
+
+             var category = _unitOfWork.Category.GetT(x => x.Id == id);
+
+             if(category == null)
+             {
+                return NotFound();
+             }
+             return View(category);
+        }
     }
+
+
 }
