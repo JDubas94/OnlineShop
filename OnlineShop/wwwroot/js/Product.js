@@ -1,5 +1,4 @@
-﻿const { ajax } = require("jquery");
-
+﻿
 var dtable;
 $(document).ready(function () {
     dtable = $('#MyTable').DataTable({
@@ -13,7 +12,7 @@ $(document).ready(function () {
                 "data": "id",
                 "render": function (data) {
                     return `
-                           <a href="/Admin/Product/reateUpdate?id=${data}"><i class="bi bi-pencil-square"></i></a>
+                           <a href="/Admin/Product/СreateUpdate?id=${data}"><i class="bi bi-pencil-square"></i></a>
                         <a onclick=RemoveProduct("/Admin/Product/Delete/${data}")><i class="bi bi-trash"></i></a>
             
                   ` }

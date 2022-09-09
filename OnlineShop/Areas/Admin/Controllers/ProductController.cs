@@ -51,6 +51,7 @@ namespace OnlineShop.Areas.Admin.Controllers
                     Value = x.Id.ToString()
                 })
             };
+
             if (id == null || id == 0)
             {
                 return View(vm);
